@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Not found{% endblock %}
+{% block body %}
+  <h1>Program not found</h1>
+  <p class="sub">That program does not exist. <a class="back" href="{{ url_for('index') }}">Back to the list</a>.</p>
+{% endblock %}

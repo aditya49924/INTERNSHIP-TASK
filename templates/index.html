@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1>Internship Tasks</h1>
+  <p class="sub">Three small Python programs, ready to try in the browser.</p>
+  {% for key, program in programs.items() %}
+    <a class="card" href="{{ url_for('program_page', key=key) }}">
+      <h2>{{ program.title }}</h2>
+      <p>{{ program.tagline }}</p>
+    </a>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,27 @@
+# Base44 dev environment for this repository.
+#
+# The repo is three interactive Python command-line programs, so there is no
+# application server of its own. `webapp.py` provides the browser front end the
+# sandbox preview needs: it runs the original scripts unchanged as subprocesses.
+# Code is bind-mounted from the sandbox and Flask runs in debug mode, so edits
+# apply without rebuilding the image.
+services:
+  web:
+    image: python:3.12-slim
+    working_dir: /app
+    command: ["sh", "-ec", "pip install --no-cache-dir -r requirements.txt && exec python3 webapp.py"]
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+    labels:
+      base44.project: "Internship Tasks"
+      base44.kind: "web"
+      base44.port: "3000"
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3000/').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s

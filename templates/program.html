@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ program.title }}{% endblock %}
+{% block body %}
+  <p><a class="back" href="{{ url_for('index') }}">&larr; All programs</a></p>
+  <h1>{{ program.title }}</h1>
+  <p class="sub">{{ program.tagline }}</p>
+
+  <form class="card" method="post" action="{{ url_for('program_page', key=key) }}">
+    {% for field in program.fields %}
+      <label for="{{ field.name }}">{{ field.label }}</label>
+      <input id="{{ field.name }}" name="value" type="text"
+             placeholder="{{ field.placeholder }}"
+             value="{{ values[loop.index0] if values|length > loop.index0 else '' }}">
+    {% endfor %}
+    <button type="submit">Run program</button>
+  </form>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if output is not none %}
+    <p class="out-label">Output</p>
+    <pre>{{ output }}</pre>
+  {% endif %}
+{% endblock %}
